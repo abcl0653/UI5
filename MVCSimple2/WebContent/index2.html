@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+		
+
+		<script src="resources/sap-ui-core.js"
+				id="sap-ui-bootstrap"
+				data-sap-ui-libs="sap.ui.commons,sap.m"
+				data-sap-ui-theme="sap_bluecrystal"
+				data-sap-ui-resourceroots='{
+				"sap.ui.demo.splitapp" : "./",
+				"view" : "./view",
+				"model" : "./model",
+				"util" : "./util"
+		}' >
+		</script>
+		<!-- add sap.ui.table,sap.ui.ux3 and/or other libraries to 'data-sap-ui-libs' if required -->
+
+		<script>
+				//sap.ui.localResources("mvcsimple2");
+				//view.placeAt("content");
+			new sap.m.Shell("shell", {
+			title:"sap.m.splitapp",
+			showLogout:true,
+			app:new sap.ui.core.ComponentContainer("cc", {
+				name:"sap.ui.demo.splitapp"
+			}),
+			//homeIcon:
+		}).placeAt("content");
+		</script>
+
+	</head>
+	<body class="sapUiBody" role="application">
+		<div id="content"></div>
+	</body>
+</html>
