@@ -19,7 +19,7 @@ sap.ui.jsview("myapplication.myview", {
 			text:"Hello JS View"});
 		oControls.push(oButton.attachPress(oController.doIt));
 		return oControls;
-		var button = button
+		//var button = button
 	}
 
 });

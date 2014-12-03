@@ -23,9 +23,17 @@ sap.ui.controller("myapplication.myview2", {
 * This hook is the same one that SAPUI5 controls get after being rendered.
 * @memberOf myapplication.myview2
 */
-//	onAfterRendering: function() {
-//
-//	},
+	onAfterRendering: function() {
+		//this.getView().byID("map_canvas");
+		
+		var mapOptions = {
+		          center: new google.maps.LatLng(-34.397, 150.644),
+		          zoom: 8,
+		          mapTypeId: google.maps.MapTypeId.ROADMAP
+		        };
+		        var map = new google.maps.Map(this.getView().byId("map_canvas"),
+		            mapOptions);
+	},
 
 /**
 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.

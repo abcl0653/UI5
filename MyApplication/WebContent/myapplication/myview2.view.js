@@ -13,7 +13,30 @@ sap.ui.jsview("myapplication.myview2", {
 	* @memberOf myapplication.myview2
 	*/ 
 	createContent : function(oController) {
-
+		var button1 = new sap.m.Button("bt1",{
+			text:"Test button"
+		});
+		//return button1;
+		
+		var vbox = new sap.m.VBox("VBOX",{
+			 fitContainer: true, 
+			 justifyContent: "Center",
+			 alignItems: "Center"
+		});
+		var oOuterBox = new sap.m.HBox("map_canvas",{
+			 fitContainer: true, 
+			 justifyContent: "Center",
+			 alignItems: "Center"
+		});
+		
+		vbox.addItem(oOuterBox);
+		
+		var bt = new sap.m.Button("bt");
+		
+		this.page = new sap.m.Page("main_page",{
+			content:[vbox,bt]
+		});
+		return this.page;
 	}
 
 });
