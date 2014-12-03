@@ -11,24 +11,24 @@ sap.ui.jsview("view.inbox.Home", {
 			items: [
 				new sap.m.StandardListItem({
 					title : "All",
-					icon : "{img>/icon/INBOX}",
-					activeIcon: "{img>/icon/INBOX_ACTIVE}",
+					//icon : "{img>/icon/INBOX}",
+					//activeIcon: "{img>/icon/INBOX_ACTIVE}",
 					type : sap.m.ListType.Active,
 					counter: 3,
 					press : [oController.onListItemTap, oController]
 				}),
 				new sap.m.StandardListItem({
 					title : "Unread",
-					icon : "{img>/icon/UNREAD}",
-					activeIcon: "{img>/icon/UNREAD_ACTIVE}",
+					//icon : "{img>/icon/UNREAD}",
+					//activeIcon: "{img>/icon/UNREAD_ACTIVE}",
 					type : sap.m.ListType.Active,
 					counter: 2,
 					press : [oController.onListItemTap, oController]
 				}),
 				new sap.m.StandardListItem({
 					title : "Important",
-					icon : "{img>/icon/IMPORTANT}",
-					activeIcon: "{img>/icon/IMPORTANT_ACTIVE}",
+					//icon : "{img>/icon/IMPORTANT}",
+					//activeIcon: "{img>/icon/IMPORTANT_ACTIVE}",
 					type : sap.m.ListType.Active,
 					counter: 2,
 					press : [oController.onListItemTap, oController] 

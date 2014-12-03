@@ -1,6 +1,6 @@
-jQuery.sap.declare("sap.ui.demo.splitapp.Component1");
+jQuery.sap.declare("sap.ui.demo.splitapp.Component");
 
-sap.ui.core.UIComponent.extend("sap.ui.demo.splitapp.Component1", {
+sap.ui.core.UIComponent.extend("sap.ui.demo.splitapp.Component", {
 
 	metadata : {
 		routing : {
@@ -18,7 +18,17 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.splitapp.Component1", {
 					view : "MailInbox",
 					viewPath : "view.inbox",
 					viewLevel : 1,
-					targetAggregation : "masterPages"
+					targetAggregation : "masterPages",
+					subroutes : [
+									{
+										pattern : "mail/{viewId}",
+										name : "mail",
+										view : "Mail",
+										viewPath : "view.detail",
+										viewLevel : 2,
+										targetAggregation : "detailPages"
+									}
+								]
 				},
 				{
 					pattern : "",
@@ -27,17 +37,8 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.splitapp.Component1", {
 					view : "Home",
 					viewLevel : 0,
 					preservePageInSplitContainer : true,
-					targetAggregation : "masterPages",
-					subroutes : [
-						{
-							pattern : "mail/{viewId}",
-							name : "mail",
-							view : "Mail",
-							viewPath : "view.detail",
-							viewLevel : 2,
-							targetAggregation : "detailPages"
-						}
-					]
+					targetAggregation : "masterPages"
+
 				},
 			]
 		}
