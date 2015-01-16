@@ -47,7 +47,7 @@ sap.ui.controller("view.inbox.MailInbox", {
 		var sBindingPath = oEvent.getParameter("listItem").getBindingContext().getPath(),
 			sViewId = sBindingPath.substring(sBindingPath.lastIndexOf("/") + 1);
 
-		this.router.navTo("mail", {viewId: sViewId});
+		this.router.navTo("mail2", {viewId: sViewId});
 	},
 
 	handleNavBack : function () {

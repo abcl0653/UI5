@@ -21,9 +21,10 @@ sap.ui.core.UIComponent.extend("sap.ui.demo.splitapp.Component", {
 					targetAggregation : "masterPages",
 					subroutes : [
 									{
-										pattern : "mail/{viewId}",
-										name : "mail",
-										view : "Mail",
+										pattern : "mail2/{viewId}",
+										name : "mail2",
+										view : "Mail2",
+										viewType:"XML",
 										viewPath : "view.detail",
 										viewLevel : 2,
 										targetAggregation : "detailPages"
