@@ -1,0 +1,17 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m" controllerName="view.detail.Mail2" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="Map">
+		<content>
+			<VBox fitContainer="true" height="500px">
+				<HBox>
+					<Label text="Latitude:"></Label>
+					<Text id="latitude" text="{latitude}"></Text>
+					<Label text="Longitude:"></Label>
+					<Text id="longitude" text="{longitude}"></Text>
+				</HBox>
+				<HBox id="map_canvas">
+				</HBox>
+			</VBox>
+		</content>
+	</Page>
+</core:View>

@@ -15,24 +15,25 @@
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<script>
 				sap.ui.localResources("myapplication");
-				var view = sap.ui.view({id:"idmyview1", viewName:"myapplication.myview", type:sap.ui.core.mvc.ViewType.JS});
-				view.placeAt("content");
+				//var view = sap.ui.view({id:"idmyview1", viewName:"myapplication.myview", type:sap.ui.core.mvc.ViewType.JS});
+				//view.placeAt("content");
 				//var view2 = sap.ui.view({id:"idmyview2", viewName:"myapplication.myview2", type:sap.ui.core.mvc.ViewType.JS});
 				//view2.placeAt("content2");
 				//I dont know what it was?
 						
 				var view3 = sap.ui.view({
-					//id		: "idmyview3",
-					viewName: "myapplication.myview3",
+					id		: "App",
+					viewName: "myapplication.App",
+					height	: "1200px",
 					type	: sap.ui.core.mvc.ViewType.XML
 				});
 				
-				view3.placeAt("content3");
+				view3.placeAt("content");
 		</script>
 
 	</head>
 	<body class="sapUiBody" role="application">
 		<div id="content"></div>
-		<div id="content3"></div>
+		
 	</body>
 </html>

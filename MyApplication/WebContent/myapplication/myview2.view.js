@@ -26,7 +26,9 @@ sap.ui.jsview("myapplication.myview2", {
 		var oOuterBox = new sap.m.HBox("map_canvas",{
 			 fitContainer: true, 
 			 justifyContent: "Center",
-			 alignItems: "Center"
+			 alignItems: "Center",
+			 height:"500px",
+			 width:"100%"
 		});
 		
 		vbox.addItem(oOuterBox);
@@ -34,6 +36,7 @@ sap.ui.jsview("myapplication.myview2", {
 		var bt = new sap.m.Button("bt");
 		
 		this.page = new sap.m.Page("main_page",{
+			title:"Google Map Test",
 			content:[vbox,bt]
 		});
 		return this.page;

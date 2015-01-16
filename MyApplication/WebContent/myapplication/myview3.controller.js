@@ -10,6 +10,8 @@ sap.ui.controller("myapplication.myview3", {
 	 */
 	 onInit: function() {
 		 this.getView().byId("map_canvas").addStyleClass("myMap");  
+		 
+			
 	 },
 	/**
 	 * Similar to onAfterRendering, but this hook is invoked before the
@@ -41,7 +43,21 @@ sap.ui.controller("myapplication.myview3", {
 					.getDomRef(), mapOptions);
 		}
 	},
-
+	actSearch: function () {  
+        var map = this.map;  
+        var address = this.getView().byId("inpSearch").getValue();  
+        this.geocoder.geocode({ 'address': address }, function (results, status) {  
+            if (status == google.maps.GeocoderStatus.OK) {  
+                map.setCenter(results[0].geometry.location);  
+                var marker = new google.maps.Marker({  
+                    map: map,  
+                    position: results[0].geometry.location  
+                });  
+            } else {  
+                alert('Geocode was not successful for the following reason: ' + status);  
+            }  
+        });  
+    }  
 /**
  * Called when the Controller is destroyed. Use this one to free resources and
  * finalize activities.
