@@ -1,0 +1,172 @@
+REPORT zpoc_inc_chek_test.
+
+DATA: lv_guid_cuhd TYPE /sapsll/guid_16.
+
+lv_guid_cuhd = '91694E14A1CC1EE7BDD68998389FBD3E' .
+
+DATA: ls_obj TYPE /sapsll/cuhd_obj_s.
+DATA: lv_cdarc TYPE /sapsll/cdarc.
+DATA: lv_trtyp TYPE /sapsll/trtyp VALUE 'A'.
+
+CALL FUNCTION '/SAPSLL/CUHD_GET_OBJECT_PK'
+  EXPORTING
+    iv_guid_cuhd         = lv_guid_cuhd
+    iv_dbcgr             = 'COMPL'
+    iv_dbcfc             = '00000'
+*   IV_ARCHIVE_READ      = ' '
+  IMPORTING
+    es_obj               = ls_obj
+    ev_cdarc             = lv_cdarc
+  CHANGING
+    cv_trtyp             = lv_trtyp
+  EXCEPTIONS
+    entry_already_exists = 1
+    entry_does_not_exist = 2
+    foreign_lock         = 3
+    OTHERS               = 4.
+IF sy-subrc <> 0.
+* Implement suitable error handling here
+ENDIF.
+
+DATA: lt_ticsd TYPE /sapsll/ticsd_t.
+DATA: lt_ticsfd TYPE /sapsll/ticsfd_t.
+DATA: lt_ticsdd TYPE /sapsll/ticsdd_t.
+
+DATA: lt_ticssn TYPE /sapsll/ticssn_t.
+
+DATA: lt_dfies_header TYPE dfies_table.
+DATA: lt_dfies_pos TYPE dfies_table.
+
+DATA: ls_ecc_cuhd TYPE /sapsll/ecc_cuhd_s.
+DATA: lv_lghdl TYPE balloghndl.
+DATA: lt_incomp_fields TYPE /sapsll/incomp_check_fields_t.
+
+DATA: lv_item_filter TYPE /sapsll/itflt .
+DATA: ls_ecc_cntrl TYPE /sapsll/ecc_cntrl_s.
+
+"MOVE-CORRESPONDING ls_obj TO ls_ecc_cuhd-hd.
+DATA: ls_pk TYPE /sapsll/cuhd_pk_s.
+ls_pk = VALUE #( mandt = sy-mandt guid_cuhd = lv_guid_cuhd  ).
+
+CALL FUNCTION '/SAPSLL/ECC_VIEW_GET'
+  EXPORTING
+    is_pk            = ls_pk
+    is_cuhd_obj      = ls_obj
+    is_ecc_cntrl     = ls_ecc_cntrl
+    iv_item_filter   = lv_item_filter
+  IMPORTING
+    es_ecc_cuhd      = ls_ecc_cuhd
+    es_cuhd_obj      = ls_obj
+  EXCEPTIONS
+    object_not_found = 1
+    OTHERS           = 2.
+IF sy-subrc <> 0.
+  MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+       WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+ENDIF.
+
+
+lt_ticssn = VALUE #( ( mandt = sy-mandt icsid = 'CN_EXP_EDF' fmname = '/SAPSLL/CHECK_CN_EDF' )  ).
+
+*CALL FUNCTION '/SAPSLL/INCOMP_CHECK_PERFORM'
+*  EXPORTING
+*    it_ticsd         = lt_ticsd
+*    it_ticsfd        = lt_ticsfd
+*    it_ticsdd        = lt_ticsdd
+*    it_ticssn        = lt_ticssn
+*    it_dfies_header  = lt_dfies_header
+*    it_dfies_pos     = lt_dfies_pos
+*    is_ecc_cuhd      = ls_ecc_cuhd
+*    iv_lghdl         = lv_lghdl
+*  IMPORTING
+*    et_incomp_fields = lt_incomp_fields.
+
+*CALL FUNCTION '/SAPSLL/INCOMP_CHECK_MSG'
+*  EXPORTING
+*    is_ecc_cuhd              =
+*    it_ecc_cntrl             =
+*    iv_lghdl                 =
+**   IV_MAINTAIN_OBJECT       = 'X'
+** IMPORTING
+**   EV_CONSISTENT            =
+**   ET_STATUS_FIELDS         =
+** EXCEPTIONS
+**   NO_SCHEME_FOUND          = 1
+**   OTHERS                   = 2
+*          .
+*IF sy-subrc <> 0.
+** Implement suitable error handling here
+*ENDIF.
+
+DATA: lt_msg_if TYPE /sapsll/msg_if_t.
+
+lt_msg_if = VALUE #( ( prosn = 'P1200' procs = 'CUSCN' pross = 'CUSEX' prosa = 'CUSEX' proaf = 'CUSEX' ttype =
+'CN_CU_EX_P_EDF' lgreg = 'CUSCN' guid_ppf_trigg = '91694E14A1CC1ED88FC2F13C49253DA5'
+nacst = '0' dispatch = '1' mexec = 'X' actpa = 'A' medium = 'X' versi = 0
+) ).
+
+DATA: lt_tctsms TYPE /sapsll/tctsms_t.
+
+lt_tctsms = VALUE #(  ( mandt = sy-mandt stctm = 'CN' ) ).
+DATA: lt_log TYPE /sapsll/incomp_log_handle_t.
+CALL FUNCTION '/SAPSLL/INCOMP_CHECK_MSG_OBJ'
+  EXPORTING
+    is_obj             = ls_obj
+    iv_maintain_object = 'X'
+    it_msg_if          = lt_msg_if
+*   IV_UPDATE_AUDIT    = ' '
+    it_tm_tctsms       = lt_tctsms
+    iv_tm_stcts        = 'ZCN_HW'
+*   IV_TM_ACNEW        =
+  IMPORTING
+    et_incomp_log      = lt_log.
+
+DATA: lt_msg TYPE bal_t_msgh.
+DATA: lt_log_handle TYPE bal_t_logh.
+
+lt_log_handle = VALUE #( ( lt_log[ 1 ]-log_handle ) ).
+
+CALL FUNCTION 'BAL_GLB_SEARCH_MSG'
+  EXPORTING
+*   I_S_LOG_FILTER =
+*   I_T_LOG_CONTEXT_FILTER       =
+    i_t_log_handle = lt_log_handle
+*   I_S_MSG_FILTER =
+*   I_T_MSG_CONTEXT_FILTER       =
+*   I_T_MSG_HANDLE =
+  IMPORTING
+*   E_T_LOG_HANDLE =
+    e_t_msg_handle = lt_msg
+  EXCEPTIONS
+    msg_not_found  = 1
+    OTHERS         = 2.
+IF sy-subrc <> 0.
+* Implement suitable error handling here
+ENDIF.
+DATA: ls_msg_all TYPE bal_s_msg.
+
+LOOP AT lt_msg INTO DATA(ls_msg).
+  CALL FUNCTION 'BAL_LOG_MSG_READ'
+    EXPORTING
+      i_s_msg_handle = ls_msg
+      i_langu        = 'E' "SY-LANGU
+    IMPORTING
+      e_s_msg        = ls_msg_all
+*     E_EXISTS_ON_DB =
+*     E_TXT_MSGTY    =
+*     E_TXT_MSGID    =
+*     E_TXT_DETLEVEL =
+*     E_TXT_PROBCLASS                =
+*     E_TXT_MSG      =
+*     E_WARNING_TEXT_NOT_FOUND       =
+    EXCEPTIONS
+      log_not_found  = 1
+      msg_not_found  = 2
+      OTHERS         = 3.
+  IF sy-subrc <> 0.
+* Implement suitable error handling here
+  ENDIF.
+
+ENDLOOP.
+
+CHECK 1 = 1.
